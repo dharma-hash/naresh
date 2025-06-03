@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6B2W6EERMK"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-6B2W6EERMK');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Login Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles to ensure a consistent font and background */
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Modern, subtle gradient background for the entire page - now green/teal */
+            background: linear-gradient(135deg, #d1f7e0 0%, #a7e6c4 100%);
+            color: #374151; /* Dark gray text */
+        }
+        /* Styling for the message box that appears on form submission */
+        .message-box {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 1rem 2rem;
+            border-radius: 0.75rem; /* Slightly more rounded corners */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Stronger, softer shadow */
+            z-index: 1000;
+            display: none;
+            font-weight: 600;
+            text-align: center;
+            animation: fadeInOut 3.5s forwards; /* Add fade in/out animation */
+        }
+        /* Success message styling */
+        .message-box.success {
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #34d399;
+        }
+        /* Error message styling */
+        .message-box.error {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #ef4444;
+        }
+
+        /* Keyframe animation for message box fade in/out */
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+            10% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            90% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+        }
+
+        /* Enhanced input focus styles - now emerald-themed */
+        input:focus, textarea:focus {
+            border-color: #10b981; /* Emerald-500 */
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3); /* Emerald-500 with opacity */
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4">
+
+    <div id="messageBox" class="message-box"></div>
+
+    <div id="authContainer" class="w-full max-w-md bg-white rounded-xl shadow-2xl p-10 md:p-14 mb-8">
+        <h1 class="text-4xl font-extrabold text-center text-emerald-800 mb-10">Welcome!</h1>
+
+        <section id="loginSection">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Login</h2>
+            <form id="loginForm" class="space-y-6">
+                <div>
+                    <label for="username" class="block text-gray-700 text-base font-medium mb-2">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Enter your username"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 transition duration-200" required>
+                    <p id="usernameError" class="text-red-500 text-xs mt-1 hidden">Please enter your username.</p>
+                </div>
+                <div>
+                    <label for="password" class="block text-gray-700 text-base font-medium mb-2">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 transition duration-200" required>
+                    <p id="passwordError" class="text-red-500 text-xs mt-1 hidden">Please enter your password.</p>
+                </div>
+                <button type="submit"
+                        class="w-full bg-emerald-600 text-white py-3 rounded-lg font-semibold text-lg hover:bg-emerald-700 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
+                    Login
+                </button>
+                <div class="text-center mt-4">
+                    <a href="#" id="forgotPasswordLink" class="text-emerald-600 hover:underline text-sm">Forgot Password?</a>
+                </div>
+            </form>
+        </section>
+
+        <section id="forgotPasswordSection" class="hidden">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Forgot Password</h2>
+            <form id="forgotPasswordForm" class="space-y-6">
+                <div>
+                    <label for="resetEmail" class="block text-gray-700 text-base font-medium mb-2">Username or Email</label>
+                    <input type="text" id="resetEmail" name="resetEmail" placeholder="Enter your username or email"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 transition duration-200" required>
+                    <p id="resetEmailError" class="text-red-500 text-xs mt-1 hidden">Please enter your username or email.</p>
+                </div>
+                <button type="submit"
+                        class="w-full bg-emerald-600 text-white py-3 rounded-lg font-semibold text-lg hover:bg-emerald-700 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
+                    Send Reset Link
+                </button>
+                <div class="text-center mt-4">
+                    <a href="#" id="backToLoginLink" class="text-gray-600 hover:underline text-sm">Back to Login</a>
+                </div>
+            </form>
+        </section>
+    </div>
+
+    <div id="loggedInContent" class="hidden w-full max-w-4xl bg-white rounded-xl shadow-2xl p-10 md:p-14 mb-8 flex flex-col items-center justify-center"
+         style="min-height: 400px; background: linear-gradient(135deg, #d1f7e0 0%, #a7e6c4 100%);">
+        <p class="text-5xl font-extrabold text-gray-800 text-center mb-10 drop-shadow-lg">Welcome to the page!</p>
+        <button id="logoutButton"
+                class="mt-10 bg-red-600 text-white py-3 px-6 rounded-lg font-semibold text-lg hover:bg-red-700 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
+            Logout
+        </button>
+    </div>
+
+    <script>
+        // Function to display messages (success/error) to the user
+        function showMessage(message, type) {
+            const messageBox = document.getElementById('messageBox');
+            messageBox.textContent = message;
+            messageBox.className = 'message-box ' + type;
+            messageBox.style.display = 'block';
+
+            // The animation handles hiding, but a manual hide is good as a fallback
+            setTimeout(() => {
+                messageBox.style.display = 'none';
+            }, 3500); // Match animation duration
+        }
+
+        // --- Elements ---
+        const loginForm = document.getElementById('loginForm');
+        const authContainer = document.getElementById('authContainer');
+        const loggedInContent = document.getElementById('loggedInContent');
+        const logoutButton = document.getElementById('logoutButton');
+        const loginSection = document.getElementById('loginSection');
+        const forgotPasswordSection = document.getElementById('forgotPasswordSection'); // New
+        const forgotPasswordLink = document.getElementById('forgotPasswordLink');     // New
+        const backToLoginLink = document.getElementById('backToLoginLink');         // New
+        const forgotPasswordForm = document.getElementById('forgotPasswordForm');     // New
+
+        // Hardcoded credentials for simulation
+        const CORRECT_USERNAME = 'Dharma';
+        const CORRECT_PASSWORD = '1234';
+
+        // --- Login Form Logic ---
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            let isValidLogin = true;
+
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+
+            const usernameError = document.getElementById('usernameError');
+            const passwordError = document.getElementById('passwordError');
+
+            usernameError.classList.add('hidden');
+            passwordError.classList.add('hidden');
+
+            if (usernameInput.value.trim() === '') {
+                usernameError.classList.remove('hidden');
+                isValidLogin = false;
+            }
+            if (passwordInput.value.trim() === '') {
+                passwordError.classList.remove('hidden');
+                isValidLogin = false;
+            }
+
+            if (isValidLogin) {
+                if (usernameInput.value === CORRECT_USERNAME && passwordInput.value === CORRECT_PASSWORD) {
+                    showMessage('Login successful! Welcome!', 'success');
+                    authContainer.classList.add('hidden'); // Hide the authentication container
+                    loggedInContent.classList.remove('hidden'); // Show the logged-in content
+                    loginForm.reset(); // Clear login form
+                } else {
+                    showMessage('Invalid username or password. Please try again.', 'error');
+                }
+            } else {
+                showMessage('Please enter your username and password.', 'error');
+            }
+        });
+
+        // --- Forgot Password Logic (New Section) ---
+        forgotPasswordLink.addEventListener('click', function(event) {
+            event.preventDefault();
+            loginSection.classList.add('hidden'); // Hide login form
+            forgotPasswordSection.classList.remove('hidden'); // Show forgot password form
+            forgotPasswordForm.reset(); // Clear form fields
+            document.getElementById('resetEmailError').classList.add('hidden'); // Hide any previous error
+        });
+
+        backToLoginLink.addEventListener('click', function(event) {
+            event.preventDefault();
+            forgotPasswordSection.classList.add('hidden'); // Hide forgot password form
+            loginSection.classList.remove('hidden'); // Show login form
+            loginForm.reset(); // Clear form fields
+            document.getElementById('usernameError').classList.add('hidden'); // Hide any previous errors
+            document.getElementById('passwordError').classList.add('hidden');
+        });
+
+        forgotPasswordForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const resetEmailInput = document.getElementById('resetEmail');
+            const resetEmailError = document.getElementById('resetEmailError');
+
+            resetEmailError.classList.add('hidden');
+
+            if (resetEmailInput.value.trim() === '') {
+                resetEmailError.classList.remove('hidden');
+                showMessage('Please enter your username or email to reset password.', 'error');
+            } else {
+                // Simulate sending a reset link
+                showMessage('A password reset link has been sent to ' + resetEmailInput.value + '.', 'success');
+                forgotPasswordForm.reset(); // Clear the form
+                // Optionally, go back to login after sending link
+                setTimeout(() => {
+                    forgotPasswordSection.classList.add('hidden');
+                    loginSection.classList.remove('hidden');
+                }, 2000); // Wait 2 seconds before returning to login
+            }
+        });
+
+        // --- Logout Logic ---
+        logoutButton.addEventListener('click', function() {
+            showMessage('You have been logged out.', 'success');
+            loggedInContent.classList.add('hidden'); // Hide the logged-in content
+            authContainer.classList.remove('hidden'); // Show the authentication container again
+            loginSection.classList.remove('hidden'); // Ensure login section is visible
+            forgotPasswordSection.classList.add('hidden'); // Ensure forgot password section is hidden
+        });
+    </script>
+</body>
+</html>
